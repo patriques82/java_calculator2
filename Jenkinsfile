@@ -1,17 +1,26 @@
 pipeline {
     agent any 
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-                echo "Build"
+                sh './gradlew build'
             }
         }
-        stage('Test') { 
+        stage('Test') {
+            when {
+                anyOf {
+ 		     branch 'develop';
+		     branch 'main'
+                }
+            }
             steps {
-                echo "Test"
+                sh './gradlew test'
             }
         }
-        stage('Deploy') { 
+        stage('Deploy') {
+ 	    when {
+		branch 'main'
+            }
             steps {
                 echo "Deploy"
             }
